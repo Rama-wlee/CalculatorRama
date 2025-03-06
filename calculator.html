@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rama's Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            font-family: 'Poppins', sans-serif;
+        }
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #e3e6e8;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        td {
+            padding: 8px;   
+            border: none; 
+        }
+        td[colspan="4"] {
+            background: #2c3e50;
+            color: white;
+            font-size: 2em;
+            padding: 30px;
+            text-align: right;
+            border-radius: 10px;
+            min-width: 240px;
+            font-weight: bold;
+            box-shadow: inset 0px -4px 6px rgba(0, 0, 0, 0.3);
+        }
+        tr {
+            border: none;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 1.5em;
+            font-weight: bold;
+            background: #d0d3d6;
+            color: #333;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), 
+                inset -2px -2px 5px rgba(255, 255, 255, 0.5);
+        }
+        button:hover {
+            background: #e0e0e0;
+            transform: scale(1.05);
+        }
+        button:active {
+            background: #d6d6d6;
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+            transform: scale(1);
+        }
+        .clear { background: #ff3b30; color: white; }
+        .clear:hover { background: #e02b20; }
+        .operator { background: #f39c12; color: white; }
+        .operator:hover { background: #e67e22; }
+        .equals {
+            background: #27ae60;
+            color: white;
+            height: 320px;
+        }
+        .equals:hover { background: #1e8449; }
+        .title-glow {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+            text-align: center;
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column; /* Susun vertikal */
+            align-items: center; /* Tengahkan elemen */
+            gap: 15px; /* Jarak antara judul & kalkulator */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title-glow">Calculator</div>
+        <table border="3">
+            <tr>
+                <td colspan="4" id="display">0</td>
+            </tr>
+            <tr>
+                <td><button class="operator" onclick="appendOperator('+')">+</button></td>
+                <td><button class="operator" onclick="appendOperator('-')">-</button></td>
+                <td><button class="operator" onclick="appendOperator('*')">×</button></td>
+                <td><button class="operator" onclick="appendOperator('/')">÷</button></td>
+            </tr>
+            <tr>
+                <td><button onclick="appendNumber('7')">7</button></td>
+                <td><button onclick="appendNumber('8')">8</button></td>
+                <td><button onclick="appendNumber('9')">9</button></td>
+                <td rowspan="4"><button class="equals" onclick="calculate()">=</button></td>
+            </tr>
+            <tr>
+                <td><button onclick="appendNumber('4')">4</button></td>
+                <td><button onclick="appendNumber('5')">5</button></td>
+                <td><button onclick="appendNumber('6')">6</button></td>
+            </tr>
+            <tr>
+                <td><button onclick="appendNumber('1')">1</button></td>
+                <td><button onclick="appendNumber('2')">2</button></td>
+                <td><button onclick="appendNumber('3')">3</button></td>
+            </tr>
+            <tr>
+                <td><button onclick="appendNumber('.')">.</button></td>
+                <td><button onclick="appendNumber('0')">0</button></td>
+                <td><button class="clear" onclick="clearDisplay()">C</button></td>
+            </tr>
+        </table>
+    </div>    
+    <script>
+        let display = document.getElementById('display');
+        let expression = '';
+
+        function appendNumber(number) {
+            if (expression === '0' && number !== '.') {
+                expression = number;
+            } else {
+                expression += number;
+            }
+            display.innerText = expression;
+        }
+
+        function appendOperator(operator) {
+            if (expression !== '' && !isNaN(expression[expression.length - 1])) {
+                expression += operator;
+                display.innerText = expression;
+            }
+        }
+
+        function calculate() {
+            try {
+                if (expression !== '') {
+                    expression = eval(expression).toString();
+                    display.innerText = expression;
+                }
+            } catch {
+                display.innerText = 'Error';
+                expression = '';
+            }
+        }
+
+        function clearDisplay() {
+            expression = '';
+            display.innerText = '0';
+        }
+    </script>
+</body>
+</html>
